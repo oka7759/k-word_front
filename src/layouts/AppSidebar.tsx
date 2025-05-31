@@ -1,6 +1,11 @@
 import { useCallback } from "react";
 import { Link, useLocation } from "react-router";
-import { PageIcon, UserCircleIcon, ListIcon } from "@/components/ui/Icon";
+import {
+  PageIcon,
+  UserCircleIcon,
+  ListIcon,
+  GridIcon,
+} from "@/components/ui/Icon";
 
 type NavItem = {
   name: string;
@@ -9,6 +14,11 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
+  {
+    icon: <GridIcon />,
+    name: "데시보드",
+    path: "/",
+  },
   {
     icon: <PageIcon />,
     name: "컨텐츠 등록",

@@ -11,6 +11,10 @@ import importPieChartIcon from "@/assets/icons/pie-chart.svg?react";
 import PlugInIcon from "@/assets/icons/plug-in.svg?react";
 import TableIcon from "@/assets/icons/table.svg?react";
 import UserCircleIcon from "@/assets/icons/user-circle.svg?react";
+import ArrowDownIcon from "@/assets/icons/arrow-down.svg?react";
+import ArrowUpIcon from "@/assets/icons/arrow-up.svg?react";
+import BoxIconLine from "@/assets/icons/box.svg?react";
+import GroupIcon from "@/assets/icons/group.svg?react";
 
 export {
   EyeCloseIcon,
@@ -26,4 +30,8 @@ export {
   PlugInIcon,
   TableIcon,
   UserCircleIcon,
+  ArrowDownIcon,
+  ArrowUpIcon,
+  BoxIconLine,
+  GroupIcon,
 };

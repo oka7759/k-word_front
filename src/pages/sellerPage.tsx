@@ -1,15 +1,38 @@
 import { sellerList } from "@/api/sellerApi";
+import Button from "@/components/ui/button/Button";
+import Input from "@/components/ui/form/InputField";
+import Label from "@/components/ui/form/Label";
+import Select from "@/components/ui/form/Select";
+import { Modal } from "@/components/ui/modal/Modal";
+import CommonTable from "@/components/common/CommonTable";
 import { useEffect, useState } from "react";
+import CommonModal from "@/components/common/CommonModal";
 
 interface Seller {
   name: string;
   country: string;
   code: string;
-  email: string;
 }
+const initData: Seller = {
+  name: "",
+  country: "",
+  code: "",
+};
+
+const options = [
+  { value: "KO", label: "한국" },
+  { value: "VI", label: "베트남" },
+  { value: "NP", label: "네팔" },
+  { value: "MY", label: "미얀마" },
+  { value: "ID", label: "인도네시아" },
+  { value: "JP", label: "일본" },
+];
 
 function SellerPage() {
   const [sellers, setSellers] = useState<Seller[]>([]);
+  const [showModal, setShowModal] = useState(false);
+
+  const [data, setData] = useState<Seller>(initData);
 
   useEffect(() => {
     const fetchSellers = async () => {
@@ -24,53 +47,62 @@ function SellerPage() {
     fetchSellers();
   }, []);
 
+  // input onChange 핸들러
+  const handleChange =
+    (field: keyof Seller) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setData((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+    };
+
+  // 등록 버튼 클릭
+  const handleRegister = () => {
+    console.log("등록 데이터:", data);
+
+    setShowModal(false);
+
+    setData(initData);
+  };
+
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" className="px-6 py-3">
-              Name
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Country
-            </th>
-            <th scope="col" className="px-6 py-3">
-              code
-            </th>
-            <th scope="col" className="px-6 py-3">
-              email
-            </th>
+    <>
+      <CommonModal
+        isOpen={showModal}
+        onClose={() => {
+          setShowModal(false);
+          setData(initData);
+        }}
+        title="셀러 등록"
+        data={data}
+        fields={[
+          { key: "name", label: "이름", type: "text" },
+          { key: "code", label: "코드", type: "text" },
+          { key: "country", label: "국가", type: "select", options },
+        ]}
+        onChange={(key, value) =>
+          setData((prev) => ({ ...prev, [key]: value }))
+        }
+        onRegister={handleRegister}
+      />
+
+      <div className="flex justify-end">
+        <Button onClick={() => setShowModal(true)}>셀러 생성</Button>
+      </div>
+
+      <CommonTable
+        columns={["Name", "Country", "Code"]}
+        data={sellers}
+        renderRow={(seller, idx) => (
+          <tr key={idx} className="border-b dark:border-gray-700">
+            <td className="px-6 py-4">{seller.name}</td>
+            <td className="px-6 py-4">{seller.country}</td>
+            <td className="px-6 py-4">{seller.code}</td>
           </tr>
-        </thead>
-        <tbody>
-          {sellers.length > 0 ? (
-            sellers.map((seller, index) => (
-              <tr
-                key={index}
-                className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
-              >
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  {seller.name}
-                </th>
-                <td className="px-6 py-4">{seller.country}</td>
-                <td className="px-6 py-4">{seller.code}</td>
-                <td className="px-6 py-4">{seller.email}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={4} className="px-6 py-4 text-center">
-                No sellers found.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+        )}
+      />
+    </>
   );
 }
 

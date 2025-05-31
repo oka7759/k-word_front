@@ -6,7 +6,10 @@ function BasicMenu() {
       <div className="w-4/5 bg-gray-500">
         <ul className="flex p-4 text-white font-bold">
           <li className="pr-6 text-2xl">
-            <NavLink to="/">파일 업로드</NavLink>
+            <NavLink to="/">메인</NavLink>
+          </li>
+          <li className="pr-6 text-2xl">
+            <NavLink to="/contents">파일 업로드</NavLink>
           </li>
           <li className="pr-6 text-2xl">
             <NavLink to="/about">팝업관리</NavLink>

@@ -1,17 +1,31 @@
 import { noticeList } from "@/api/noticeApi";
+import CommonModal from "@/components/common/CommonModal";
+import CommonTable from "@/components/common/CommonTable";
+import Button from "@/components/ui/button/Button";
+import Input from "@/components/ui/form/InputField";
+import Label from "@/components/ui/form/Label";
+import TextArea from "@/components/ui/form/TextArea";
+import { Modal } from "@/components/ui/modal/Modal";
 import { useEffect, useState } from "react";
 
 interface Notice {
-  id: number;
+  id?: number;
   title: string;
   content: string;
 }
+const initData: Notice = {
+  title: "",
+  content: "",
+};
 
 function noticePage() {
   const [notice, setNotice] = useState<Notice[]>([]);
+  const [showModal, setShowModal] = useState(false);
+
+  const [data, setData] = useState<Notice>(initData);
 
   useEffect(() => {
-    const fetchSellers = async () => {
+    const fetchNotices = async () => {
       try {
         const data = await noticeList();
         setNotice(data);
@@ -20,52 +34,68 @@ function noticePage() {
       }
     };
 
-    fetchSellers();
+    fetchNotices();
   }, []);
+  const handleChange =
+    (field: keyof Notice) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setData((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+    };
+
+  // textarea 핸들러 (TextArea 용)
+  const handleTextAreaChange = (value: string) => {
+    setData((prev) => ({
+      ...prev,
+      content: value,
+    }));
+  };
+
+  // 등록 버튼 클릭
+  const handleRegister = () => {
+    console.log("등록 데이터:", data);
+
+    setShowModal(false);
+
+    setData(initData);
+  };
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" className="px-6 py-3">
-              ID
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Title
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Content
-            </th>
+    <>
+      <CommonModal
+        isOpen={showModal}
+        onClose={() => {
+          setShowModal(false);
+          setData(initData);
+        }}
+        title="공지 등록"
+        data={data}
+        fields={[
+          { key: "title", label: "제목", type: "text" },
+          { key: "content", label: "내용", type: "textarea" },
+        ]}
+        onChange={(key, value) =>
+          setData((prev) => ({ ...prev, [key]: value }))
+        }
+        onRegister={handleRegister}
+      />
+      <div className="flex justify-end">
+        <Button onClick={() => setShowModal(true)}>공지사항 등록</Button>
+      </div>
+      <CommonTable
+        columns={["ID", "Title", "Content"]}
+        data={notice}
+        renderRow={(n, idx) => (
+          <tr key={idx} className="border-b dark:border-gray-700">
+            <td className="px-6 py-4">{n.id}</td>
+            <td className="px-6 py-4">{n.title}</td>
+            <td className="px-6 py-4">{n.content}</td>
           </tr>
-        </thead>
-        <tbody>
-          {notice.length > 0 ? (
-            notice.map((notice, index) => (
-              <tr
-                key={index}
-                className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200"
-              >
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  {notice.id}
-                </th>
-                <td className="px-6 py-4">{notice.title}</td>
-                <td className="px-6 py-4">{notice.content}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={4} className="px-6 py-4 text-center">
-                No notices found.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+        )}
+      />
+    </>
   );
 }
 

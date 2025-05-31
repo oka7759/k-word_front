@@ -212,7 +212,7 @@ function contentsPage() {
                 }));
               }}
               defaultValue={selectedLanguages[id]?.value || ""}
-              className="dark:bg-dark-900 mt-1"
+              className=" mt-1"
             />
           </div>
         ))}
