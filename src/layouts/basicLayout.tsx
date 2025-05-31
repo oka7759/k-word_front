@@ -1,9 +1,13 @@
 import { Link, Outlet } from "react-router";
 import AppSidebar from "./AppSidebar";
 import useSidebar from "@/store/useSidebar";
+import { useLocation } from "react-router";
 
 function BasicLayout() {
   const { isExpanded, isHovered } = useSidebar();
+  const location = useLocation();
+  const path = location.pathname.replace(/^\//, "");
+
   return (
     <div className="min-h-screen xl:flex">
       <div>
@@ -21,42 +25,44 @@ function BasicLayout() {
                 className="text-xl font-semibold text-gray-800 dark:text-white/90"
                 x-text="pageName"
               >
-                Profile
+                {path.length ? path : "DashBoard"}
               </h2>
-              <nav>
-                <ol className="flex items-center gap-1.5">
-                  <li>
-                    <Link
-                      className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
-                      to="/"
-                    >
-                      Home
-                      <svg
-                        className="stroke-current"
-                        width="17"
-                        height="16"
-                        viewBox="0 0 17 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+              {path.length !== 0 && (
+                <nav>
+                  <ol className="flex items-center gap-1.5">
+                    <li>
+                      <Link
+                        className="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
+                        to="/"
                       >
-                        <path
-                          d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366"
-                          stroke="currentColor"
-                          strokeWidth="1.2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </Link>
-                  </li>
-                  <li
-                    className="text-sm text-gray-800 dark:text-white/90"
-                    x-text="pageName"
-                  >
-                    Profile
-                  </li>
-                </ol>
-              </nav>
+                        Home
+                        <svg
+                          className="stroke-current"
+                          width="17"
+                          height="16"
+                          viewBox="0 0 17 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366"
+                            stroke="currentColor"
+                            strokeWidth="1.2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </Link>
+                    </li>
+                    <li
+                      className="text-sm text-gray-800 dark:text-white/90"
+                      x-text="pageName"
+                    >
+                      {path}
+                    </li>
+                  </ol>
+                </nav>
+              )}
             </div>
           </div>
           <div className="min-h-[1000px] rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">

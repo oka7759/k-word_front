@@ -5,7 +5,9 @@ import memberRouter from "./memberRouter";
 
 const Loading = () => <div>Loading ...</div>;
 const Main = lazy(() => import("../pages/mainPage"));
-const AboutPage = lazy(() => import("../pages/aboutPage"));
+const Contents = lazy(() => import("../pages/contentsPage"));
+const SellerPage = lazy(() => import("../pages/sellerPage"));
+const NoticePage = lazy(() => import("../pages/noticePage"));
 
 const router = createBrowserRouter([
   {
@@ -21,10 +23,27 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "about",
+        path: "contents",
         element: (
           <Suspense fallback={<Loading />}>
-            <AboutPage />
+            <Contents />
+          </Suspense>
+        ),
+      },
+      {
+        path: "seller",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <SellerPage />
+          </Suspense>
+        ),
+      },
+
+      {
+        path: "notice",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <NoticePage />
           </Suspense>
         ),
       },

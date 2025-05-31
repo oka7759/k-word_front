@@ -40,7 +40,7 @@ type LanguageSelection = {
   dLang: { value: string; label: string } | null;
 };
 
-function MainPage() {
+function contentsPage() {
   const [excelData, setExcelData] = useState<ExcelData>({
     fn: "",
     category: "",
@@ -300,4 +300,4 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+export default contentsPage;
