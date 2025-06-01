@@ -3,6 +3,8 @@ interface CommonTableProps<T> {
   data: T[];
   renderRow: (item: T, index: number) => React.ReactNode;
   emptyMessage?: string;
+  selectable?: boolean;
+  onRowSelect?: (item: T) => void;
 }
 
 function CommonTable<T>({
@@ -10,7 +12,14 @@ function CommonTable<T>({
   data,
   renderRow,
   emptyMessage = "데이터가 없습니다.",
+  selectable = false,
+  onRowSelect,
 }: CommonTableProps<T>) {
+  const handleRowClick = (item: T) => {
+    if (selectable && onRowSelect) {
+      onRowSelect(item);
+    }
+  };
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -25,7 +34,15 @@ function CommonTable<T>({
         </thead>
         <tbody>
           {data.length > 0 ? (
-            data.map((item, idx) => renderRow(item, idx))
+            data.map((item, idx) => (
+              <tr
+                key={idx}
+                onClick={() => handleRowClick(item)}
+                className={selectable ? "cursor-pointer hover:bg-gray-100" : ""}
+              >
+                {renderRow(item, idx)}
+              </tr>
+            ))
           ) : (
             <tr>
               <td colSpan={columns.length} className="px-6 py-4 text-center">

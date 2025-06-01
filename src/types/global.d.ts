@@ -3,3 +3,9 @@ interface ResultModal {
   content: string;
   callbackFn?: () => void;
 }
+
+interface Seller {
+  name: string;
+  country: string;
+  code: string;
+}

@@ -1,29 +1,16 @@
-import { sellerList } from "@/api/sellerApi";
+import { addSeller, sellerList } from "@/api/sellerApi";
 import Button from "@/components/ui/button/Button";
 import CommonTable from "@/components/common/CommonTable";
 import { useEffect, useState } from "react";
 import CommonModal from "@/components/common/CommonModal";
 import type { SellerResp } from "@/types/api";
+import { countryOptions } from "@/data/countryOptions";
 
-interface Seller {
-  name: string;
-  country: string;
-  code: string;
-}
 const initData: Seller = {
   name: "",
   country: "",
   code: "",
 };
-
-const options = [
-  { value: "KO", label: "한국" },
-  { value: "VI", label: "베트남" },
-  { value: "NP", label: "네팔" },
-  { value: "MY", label: "미얀마" },
-  { value: "ID", label: "인도네시아" },
-  { value: "JP", label: "일본" },
-];
 
 function SellerPage() {
   const [sellers, setSellers] = useState<SellerResp[]>([]);
@@ -34,8 +21,8 @@ function SellerPage() {
   useEffect(() => {
     const fetchSellers = async () => {
       try {
-        const data = await sellerList();
-        setSellers(data);
+        const resp = await sellerList();
+        setSellers(resp);
       } catch (error) {
         console.error("Failed to fetch sellers", error);
       }
@@ -45,12 +32,16 @@ function SellerPage() {
   }, []);
 
   // 등록 버튼 클릭
-  const handleRegister = () => {
-    console.log("등록 데이터:", data);
-
-    setShowModal(false);
-
-    setData(initData);
+  const handleRegister = async () => {
+    try {
+      const res = await addSeller(data);
+      setSellers(res);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setShowModal(false);
+      setData(initData);
+    }
   };
 
   return (
@@ -66,7 +57,12 @@ function SellerPage() {
         fields={[
           { key: "name", label: "이름", type: "text" },
           { key: "code", label: "코드", type: "text" },
-          { key: "country", label: "국가", type: "select", options },
+          {
+            key: "country",
+            label: "국가",
+            type: "select",
+            options: countryOptions,
+          },
         ]}
         onChange={(key, value) =>
           setData((prev) => ({ ...prev, [key]: value }))
@@ -82,11 +78,17 @@ function SellerPage() {
         columns={["Name", "Country", "Code"]}
         data={sellers}
         renderRow={(seller, idx) => (
-          <tr key={idx} className="border-b dark:border-gray-700">
-            <td className="px-6 py-4">{seller.name}</td>
-            <td className="px-6 py-4">{seller.country}</td>
-            <td className="px-6 py-4">{seller.code}</td>
-          </tr>
+          <>
+            <td key={`seller-name-${idx}`} className="px-6 py-4">
+              {seller.name}
+            </td>
+            <td key={`seller-country-${idx}`} className="px-6 py-4">
+              {seller.country}
+            </td>
+            <td key={`seller-code-${idx}`} className="px-6 py-4">
+              {seller.code}
+            </td>
+          </>
         )}
       />
     </>

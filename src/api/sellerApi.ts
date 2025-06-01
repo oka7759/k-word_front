@@ -6,9 +6,8 @@ const sellerList = async (): Promise<SellerResp[]> => {
   return res.data;
 };
 
-const addSeller = async (name: string, country: string) => {
-  const body = { name, country };
-  const res = await apiClient.post("pay/seller", body);
+const addSeller = async (body: Seller): Promise<SellerResp[]> => {
+  const res = await apiClient.post("admin/seller", body);
   return res.data;
 };
 

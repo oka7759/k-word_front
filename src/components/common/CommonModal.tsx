@@ -13,11 +13,13 @@ interface CommonModalProps<T> {
   fields: {
     key: keyof T;
     label: string;
-    type: "text" | "select" | "textarea";
+    type: "text" | "select" | "textarea" | "date";
     options?: { value: string; label: string }[];
   }[];
   onChange: (key: keyof T, value: string) => void;
   onRegister: () => void;
+  onDelete?: () => void;
+  onUpdate?: () => void;
 }
 
 function CommonModal<T>({
@@ -28,6 +30,8 @@ function CommonModal<T>({
   fields,
   onChange,
   onRegister,
+  onDelete,
+  onUpdate,
 }: CommonModalProps<T>) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="w-xl">
@@ -62,11 +66,32 @@ function CommonModal<T>({
                   defaultValue={data[field.key] as string}
                 />
               )}
+              {field.type === "date" && (
+                <Input
+                  type="date"
+                  id={String(field.key)}
+                  value={data[field.key] as string}
+                  onChange={(e) => onChange(field.key, e.target.value)}
+                />
+              )}
             </div>
           ))}
         </div>
-        <div className="mt-4">
-          <Button onClick={onRegister} className="w-full">
+        <div className="mt-4 flex gap-2">
+          {onDelete && (
+            <Button onClick={onDelete} className="flex-1 bg-red-500 text-white">
+              삭제
+            </Button>
+          )}
+          {onUpdate && (
+            <Button
+              onClick={onUpdate}
+              className="flex-1 bg-blue-500 text-white"
+            >
+              수정
+            </Button>
+          )}
+          <Button onClick={onRegister} className="flex-1">
             등록
           </Button>
         </div>
