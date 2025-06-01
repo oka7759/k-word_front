@@ -2,10 +2,6 @@ import { noticeList } from "@/api/noticeApi";
 import CommonModal from "@/components/common/CommonModal";
 import CommonTable from "@/components/common/CommonTable";
 import Button from "@/components/ui/button/Button";
-import Input from "@/components/ui/form/InputField";
-import Label from "@/components/ui/form/Label";
-import TextArea from "@/components/ui/form/TextArea";
-import { Modal } from "@/components/ui/modal/Modal";
 import { useEffect, useState } from "react";
 
 interface Notice {

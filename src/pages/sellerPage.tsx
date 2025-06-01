@@ -1,9 +1,5 @@
 import { sellerList } from "@/api/sellerApi";
 import Button from "@/components/ui/button/Button";
-import Input from "@/components/ui/form/InputField";
-import Label from "@/components/ui/form/Label";
-import Select from "@/components/ui/form/Select";
-import { Modal } from "@/components/ui/modal/Modal";
 import CommonTable from "@/components/common/CommonTable";
 import { useEffect, useState } from "react";
 import CommonModal from "@/components/common/CommonModal";

@@ -1,36 +1,13 @@
-import { getCookie } from "@/util/cookieUtil";
-import axios from "axios";
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+import apiClient from "./apiClient";
 
 const sellerList = async () => {
-  const token = getCookie("accessToken");
-
-  const header = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const res = await axios.get(`${BASE_URL}pay/seller`, header);
-
+  const res = await apiClient.get("pay/seller");
   return res.data;
 };
 
 const addSeller = async (name: string, country: string) => {
-  const token = getCookie("accessToken");
-
-  const header = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  };
   const body = { name, country };
-
-  const res = await axios.post(`${BASE_URL}pay/seller`, body, header);
-
+  const res = await apiClient.post("pay/seller", body);
   return res.data;
 };
 

@@ -1,36 +1,13 @@
-import { getCookie } from "@/util/cookieUtil";
-import axios from "axios";
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+import apiClient from "./apiClient";
 
 const noticeList = async () => {
-  const token = getCookie("accessToken");
-
-  const header = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const res = await axios.get(`${BASE_URL}admin/notice`, header);
-
+  const res = await apiClient.get("admin/notice");
   return res.data;
 };
 
 const addNotice = async (title: string, content: string, language: string) => {
-  const token = getCookie("accessToken");
-
-  const header = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  };
   const body = { title, content, language };
-
-  const res = await axios.post(`${BASE_URL}admin/notice`, body, header);
-
+  const res = await apiClient.post("admin/notice", body);
   return res.data;
 };
 
@@ -40,33 +17,13 @@ const modifyNotice = async (
   content: string,
   language: string
 ) => {
-  const token = getCookie("accessToken");
-
-  const header = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  };
   const body = { title, content, language };
-
-  const res = await axios.post(`${BASE_URL}admin/notice/${id}`, body, header);
-
+  const res = await apiClient.post(`admin/notice/${id}`, body);
   return res.data;
 };
 
 const deleteNotice = async (id: number) => {
-  const token = getCookie("accessToken");
-
-  const header = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const res = await axios.delete(`${BASE_URL}admin/notice/${id}`, header);
-
+  const res = await apiClient.delete(`admin/notice/${id}`);
   return res.data;
 };
 
