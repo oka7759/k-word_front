@@ -2,6 +2,7 @@ import { noticeList } from "@/api/noticeApi";
 import CommonModal from "@/components/common/CommonModal";
 import CommonTable from "@/components/common/CommonTable";
 import Button from "@/components/ui/button/Button";
+import type { NoticeListResp } from "@/types/api";
 import { useEffect, useState } from "react";
 
 interface Notice {
@@ -15,7 +16,7 @@ const initData: Notice = {
 };
 
 function noticePage() {
-  const [notice, setNotice] = useState<Notice[]>([]);
+  const [notice, setNotice] = useState<NoticeListResp[]>([]);
   const [showModal, setShowModal] = useState(false);
 
   const [data, setData] = useState<Notice>(initData);
@@ -32,24 +33,7 @@ function noticePage() {
 
     fetchNotices();
   }, []);
-  const handleChange =
-    (field: keyof Notice) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
-      setData((prev) => ({
-        ...prev,
-        [field]: value,
-      }));
-    };
 
-  // textarea 핸들러 (TextArea 용)
-  const handleTextAreaChange = (value: string) => {
-    setData((prev) => ({
-      ...prev,
-      content: value,
-    }));
-  };
-
-  // 등록 버튼 클릭
   const handleRegister = () => {
     console.log("등록 데이터:", data);
 
@@ -81,13 +65,15 @@ function noticePage() {
         <Button onClick={() => setShowModal(true)}>공지사항 등록</Button>
       </div>
       <CommonTable
-        columns={["ID", "Title", "Content"]}
+        columns={["ID", "Title", "Content", "language", "image"]}
         data={notice}
         renderRow={(n, idx) => (
           <tr key={idx} className="border-b dark:border-gray-700">
             <td className="px-6 py-4">{n.id}</td>
             <td className="px-6 py-4">{n.title}</td>
             <td className="px-6 py-4">{n.content}</td>
+            <td className="px-6 py-4">{n.language}</td>
+            <td className="px-6 py-4">{n.imageUrl}</td>
           </tr>
         )}
       />

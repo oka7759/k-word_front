@@ -1,7 +1,8 @@
+import type { SellerResp } from "@/types/api";
 import apiClient from "./apiClient";
 
-const sellerList = async () => {
-  const res = await apiClient.get("pay/seller");
+const sellerList = async (): Promise<SellerResp[]> => {
+  const res = await apiClient.get("admin/seller");
   return res.data;
 };
 

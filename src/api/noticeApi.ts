@@ -1,6 +1,7 @@
+import type { NoticeListResp } from "@/types/api";
 import apiClient from "./apiClient";
 
-const noticeList = async () => {
+const noticeList = async (): Promise<NoticeListResp[]> => {
   const res = await apiClient.get("admin/notice");
   return res.data;
 };

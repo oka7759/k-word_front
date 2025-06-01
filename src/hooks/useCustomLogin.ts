@@ -15,7 +15,6 @@ const useCustomLogin = () => {
   useEffect(() => {
     if (!loginStatus) {
       const cookieData = getCookie("access_token");
-
       if (cookieData) {
         save(cookieData);
       }

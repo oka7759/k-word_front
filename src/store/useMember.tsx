@@ -4,8 +4,8 @@ import { loginPost } from "../api/memberApi";
 import { removeCookie, setCookie } from "../util/cookieUtil";
 
 export interface MemberInfo {
-  email: string;
-  nickname: string;
+  userId: number;
+
   accessToken: string;
 }
 
@@ -19,8 +19,7 @@ export interface MemberStore {
 }
 
 const initState: MemberInfo = {
-  email: "",
-  nickname: "",
+  userId: 0,
   accessToken: "",
 };
 
@@ -34,8 +33,7 @@ const useMember = create<MemberStore>((set) => ({
 
       set({
         member: {
-          email: data.email,
-          nickname: data.nickname,
+          userId: data.userId,
           accessToken: data.accessToken,
         },
         status: "fulfilled",

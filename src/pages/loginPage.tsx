@@ -20,6 +20,12 @@ function LoginPage() {
     moveToPath("/");
   };
 
+  const handleChange =
+    (setter: (value: string) => void) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setter(e.target.value);
+    };
+
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center bg-blue-950">
       <Modal
@@ -73,7 +79,7 @@ function LoginPage() {
             </Label>
             <Input
               placeholder="info@gmail.com"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleChange(setEmail)}
               name="email"
             />
           </div>
@@ -86,7 +92,7 @@ function LoginPage() {
                 name="pw"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
-                onChange={(e) => setPw(e.target.value)}
+                onChange={handleChange(setPw)}
               />
               <span
                 onClick={() => setShowPassword(!showPassword)}

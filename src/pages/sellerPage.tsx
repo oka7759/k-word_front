@@ -3,6 +3,7 @@ import Button from "@/components/ui/button/Button";
 import CommonTable from "@/components/common/CommonTable";
 import { useEffect, useState } from "react";
 import CommonModal from "@/components/common/CommonModal";
+import type { SellerResp } from "@/types/api";
 
 interface Seller {
   name: string;
@@ -25,7 +26,7 @@ const options = [
 ];
 
 function SellerPage() {
-  const [sellers, setSellers] = useState<Seller[]>([]);
+  const [sellers, setSellers] = useState<SellerResp[]>([]);
   const [showModal, setShowModal] = useState(false);
 
   const [data, setData] = useState<Seller>(initData);
@@ -42,16 +43,6 @@ function SellerPage() {
 
     fetchSellers();
   }, []);
-
-  // input onChange 핸들러
-  const handleChange =
-    (field: keyof Seller) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
-      setData((prev) => ({
-        ...prev,
-        [field]: value,
-      }));
-    };
 
   // 등록 버튼 클릭
   const handleRegister = () => {
