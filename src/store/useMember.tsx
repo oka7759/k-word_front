@@ -1,3 +1,4 @@
+// useMember.ts
 import { create } from "zustand";
 import { loginPost } from "../api/memberApi";
 import { removeCookie, setCookie } from "../util/cookieUtil";
@@ -23,40 +24,41 @@ const initState: MemberInfo = {
   accessToken: "",
 };
 
-const useMember = create<MemberStore>((set) => {
-  return {
-    member: initState,
-    status: "",
-    login: async (email: string, pw: string) => {
-      try {
-        set({ status: "pending" });
+const useMember = create<MemberStore>((set) => ({
+  member: initState,
+  status: "",
+  login: async (email: string, pw: string) => {
+    try {
+      set({ status: "pending" });
+      const data = await loginPost(email, pw);
 
-        const data = await loginPost(email, pw);
+      set({
+        member: {
+          email: data.email,
+          nickname: data.nickname,
+          accessToken: data.accessToken,
+        },
+        status: "fulfilled",
+      });
 
-        console.log(data);
-
-        set({ member: data, status: "fulfilled" });
-
-        const newState = { ...data, status: "fulfilled" };
-
-        setCookie("member", JSON.stringify(newState), 1); //1일
-      } catch (error) {
-        console.error("로그인 에러:", error);
-        set({ member: { ...initState }, status: "error" });
-        throw error;
-      }
-    },
-    logout: () => {
-      set({ member: { ...initState }, status: "" });
-      removeCookie("member");
-    },
-    save: (memberInfo: MemberInfo) => {
-      set({ member: memberInfo, status: "fulfilled" });
-    },
-    reset: () => {
-      set({ member: { ...initState }, status: "" });
-    },
-  };
-});
+      // 관례: 쿠키에는 accessToken만 저장
+      setCookie("accessToken", data.accessToken, 1); // 1일
+    } catch (error) {
+      console.error("로그인 에러:", error);
+      set({ member: { ...initState }, status: "error" });
+      throw error;
+    }
+  },
+  logout: () => {
+    set({ member: { ...initState }, status: "" });
+    removeCookie("accessToken");
+  },
+  save: (memberInfo: MemberInfo) => {
+    set({ member: memberInfo, status: "fulfilled" });
+  },
+  reset: () => {
+    set({ member: { ...initState }, status: "" });
+  },
+}));
 
 export default useMember;

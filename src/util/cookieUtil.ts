@@ -4,9 +4,14 @@ const cookies = new Cookies();
 
 export const setCookie = (name: string, value: string, days: number) => {
   const expires = new Date();
-  expires.setUTCDate(expires.getUTCDate() + days); //보관기한
+  expires.setUTCDate(expires.getUTCDate() + days);
 
-  return cookies.set(name, value, { path: "/", expires: expires });
+  return cookies.set(name, value, {
+    path: "/",
+    expires,
+    secure: true,
+    sameSite: "lax",
+  });
 };
 
 export const getCookie = (name: string) => {
