@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router";
 import { lazy, Suspense } from "react";
 import BasicLayout from "../layouts/basicLayout";
 import memberRouter from "./memberRouter";
+import ProtectedRoute from "./protectedRoute";
 
 const Loading = () => <div>Loading ...</div>;
 const Main = lazy(() => import("../pages/mainPage"));
@@ -26,7 +27,9 @@ const router = createBrowserRouter([
         path: "contents",
         element: (
           <Suspense fallback={<Loading />}>
-            <Contents />
+            <ProtectedRoute>
+              <Contents />
+            </ProtectedRoute>
           </Suspense>
         ),
       },
@@ -34,7 +37,9 @@ const router = createBrowserRouter([
         path: "seller",
         element: (
           <Suspense fallback={<Loading />}>
-            <SellerPage />
+            <ProtectedRoute>
+              <SellerPage />
+            </ProtectedRoute>
           </Suspense>
         ),
       },
@@ -43,7 +48,9 @@ const router = createBrowserRouter([
         path: "notice",
         element: (
           <Suspense fallback={<Loading />}>
-            <NoticePage />
+            <ProtectedRoute>
+              <NoticePage />
+            </ProtectedRoute>
           </Suspense>
         ),
       },
