@@ -12,7 +12,7 @@ const addNotice = async (body: NoticeListResp) => {
 };
 
 const modifyNotice = async (body: NoticeListResp) => {
-  const res = await apiClient.post(`admin/notice/${body.id}`, body);
+  const res = await apiClient.put(`admin/notice/${body.id}`, body);
   return res.data;
 };
 

@@ -23,6 +23,7 @@ const initData: NoticeListResp = {
 function noticePage() {
   const [notice, setNotice] = useState<NoticeListResp[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const [data, setData] = useState<NoticeListResp>(initData);
 
@@ -106,11 +107,20 @@ function noticePage() {
           setData((prev) => ({ ...prev, [key]: value }))
         }
         onRegister={handleRegister}
-        onDelete={handleDelete}
-        onUpdate={handleUpdate}
+        {...(isEditMode && {
+          onDelete: handleDelete,
+          onUpdate: handleUpdate,
+        })}
       />
       <div className="flex justify-end">
-        <Button onClick={() => setShowModal(true)}>공지사항 등록</Button>
+        <Button
+          onClick={() => {
+            setShowModal(true);
+            setIsEditMode(false);
+          }}
+        >
+          공지사항 등록
+        </Button>
       </div>
 
       <CommonTable
@@ -120,6 +130,7 @@ function noticePage() {
         onRowSelect={(item) => {
           setData(item);
           setShowModal(true);
+          setIsEditMode(true);
         }}
         renderRow={(n, idx) => (
           <>
@@ -136,7 +147,23 @@ function noticePage() {
               {n.language}
             </td>
             <td key={`notice-start-${idx}`} className="px-6 py-4">
-              {n.startAt} ~ {n.expiredAt}
+              {n.startAt} ~ {n.expiredAt}{" "}
+              {(() => {
+                const today = new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
+                if (n.startAt <= today && today <= n.expiredAt) {
+                  return (
+                    <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm ml-2">
+                      활성
+                    </span>
+                  );
+                } else {
+                  return (
+                    <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm ml-2">
+                      만료
+                    </span>
+                  );
+                }
+              })()}
             </td>
           </>
         )}
