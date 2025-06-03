@@ -17,22 +17,22 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "데시보드",
-    path: "/",
+    path: "/admin",
   },
   {
     icon: <PageIcon />,
     name: "컨텐츠 등록",
-    path: "/contents",
+    path: "/admin/contents",
   },
   {
     icon: <UserCircleIcon />,
     name: "셀러 코드관리",
-    path: "/seller",
+    path: "/admin/seller",
   },
   {
     icon: <ListIcon />,
     name: "공지 관리",
-    path: "/notice",
+    path: "/admin/notice",
   },
 ];
 

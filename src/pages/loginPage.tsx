@@ -17,7 +17,7 @@ function LoginPage() {
   };
 
   const closeModal = () => {
-    moveToPath("/");
+    moveToPath("/admin");
   };
 
   const handleChange =

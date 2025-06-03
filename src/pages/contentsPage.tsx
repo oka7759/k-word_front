@@ -48,7 +48,7 @@ function contentsPage() {
     data: [],
   });
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [totalRow, setTotalRow] = useState(0);
   const [selectedLanguages, setSelectedLanguages] = useState<LanguageSelection>(
     {
@@ -107,7 +107,7 @@ function contentsPage() {
 
   const handleSubmit = async () => {
     setShowModal(false);
-    setIsLoading(true);
+    // setIsLoading(true);
     const data = {
       excelData: excelData.data,
       category: excelData.category,

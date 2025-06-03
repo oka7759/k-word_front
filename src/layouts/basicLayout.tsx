@@ -6,7 +6,7 @@ import { useLocation } from "react-router";
 function BasicLayout() {
   const { isExpanded, isHovered } = useSidebar();
   const location = useLocation();
-  const path = location.pathname.replace(/^\//, "");
+  const path = location.pathname.replace(/^\/admin\/?/, "");
 
   return (
     <div className="min-h-screen xl:flex">

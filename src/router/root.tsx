@@ -12,14 +12,17 @@ const NoticePage = lazy(() => import("../pages/noticePage"));
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/admin",
     Component: BasicLayout,
     children: [
       {
         index: true,
         element: (
           <Suspense fallback={<Loading />}>
-            <Main />
+            <ProtectedRoute>
+              {" "}
+              <Main />
+            </ProtectedRoute>
           </Suspense>
         ),
       },
@@ -57,7 +60,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "member",
+    path: "admin",
     children: memberRouter(),
   },
 ]);

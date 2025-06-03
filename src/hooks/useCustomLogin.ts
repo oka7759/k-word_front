@@ -1,4 +1,4 @@
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import { getCookie } from "../util/cookieUtil";
 import useMember from "../store/useMember";
@@ -31,7 +31,7 @@ const useCustomLogin = () => {
     logout();
   };
   const moveToLogin = () => {
-    navigate("/member/login");
+    navigate("/admin/login");
   };
   const moveToPath = (path: string) => {
     navigate({ pathname: path }, { replace: true });
