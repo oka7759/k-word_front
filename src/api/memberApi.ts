@@ -1,8 +1,6 @@
 import type { LoginResp } from "@/types/api";
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
 export const loginPost = async (
   email: string,
   pw: string
@@ -12,7 +10,7 @@ export const loginPost = async (
     username: email,
     password: pw,
   };
-  const res = await axios.post(`${BASE_URL}admin/login`, body, header);
+  const res = await axios.post(`/api/admin/login`, body, header);
 
   return res.data;
 };
