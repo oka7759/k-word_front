@@ -6,20 +6,13 @@ const noticeList = async (): Promise<NoticeListResp[]> => {
   return res.data;
 };
 
-const addNotice = async (title: string, content: string, language: string) => {
-  const body = { title, content, language };
+const addNotice = async (body: NoticeListResp) => {
   const res = await apiClient.post("admin/notice", body);
   return res.data;
 };
 
-const modifyNotice = async (
-  id: number,
-  title: string,
-  content: string,
-  language: string
-) => {
-  const body = { title, content, language };
-  const res = await apiClient.post(`admin/notice/${id}`, body);
+const modifyNotice = async (body: NoticeListResp) => {
+  const res = await apiClient.post(`admin/notice/${body.id}`, body);
   return res.data;
 };
 

@@ -1,4 +1,9 @@
-import { noticeList } from "@/api/noticeApi";
+import {
+  noticeList,
+  deleteNotice,
+  modifyNotice,
+  addNotice,
+} from "@/api/noticeApi";
 import CommonModal from "@/components/common/CommonModal";
 import CommonTable from "@/components/common/CommonTable";
 import Button from "@/components/ui/button/Button";
@@ -21,35 +26,58 @@ function noticePage() {
 
   const [data, setData] = useState<NoticeListResp>(initData);
 
-  useEffect(() => {
-    const fetchNotices = async () => {
-      try {
-        const data = await noticeList();
-        setNotice(data);
-      } catch (error) {
-        console.error("Failed to fetch sellers", error);
-      }
-    };
+  const fetchNotices = async () => {
+    try {
+      const data = await noticeList();
+      setNotice(data);
+    } catch (error) {
+      console.error("Failed to fetch notices", error);
+    }
+  };
 
+  useEffect(() => {
     fetchNotices();
   }, []);
 
-  const handleRegister = () => {
-    console.log("등록 데이터:", data);
+  const handleRegister = async () => {
+    try {
+      await addNotice(data);
+      await fetchNotices();
+    } catch (error) {
+      console.error("Failed to add notice", error);
+    } finally {
+      setShowModal(false);
+      setData(initData);
+    }
+  };
+
+  const handleUpdate = async () => {
+    if (!data.id) return;
+    try {
+      await modifyNotice(data);
+      await fetchNotices();
+    } catch (error) {
+      console.error("Failed to update notice", error);
+    } finally {
+      setShowModal(false);
+      setData(initData);
+    }
+    console.log("수정 데이터:", data.id);
     setShowModal(false);
     setData(initData);
   };
 
-  const handleUpdate = () => {
-    console.log("수정 데이터:", data);
-    setShowModal(false);
-    setData(initData);
-  };
-
-  const handleDelete = () => {
-    console.log("삭제 데이터:", data);
-    setShowModal(false);
-    setData(initData);
+  const handleDelete = async () => {
+    if (!data.id) return;
+    try {
+      await deleteNotice(data.id);
+      await fetchNotices();
+    } catch (error) {
+      console.error("Failed to delete notice", error);
+    } finally {
+      setShowModal(false);
+      setData(initData);
+    }
   };
 
   return (
@@ -78,6 +106,8 @@ function noticePage() {
           setData((prev) => ({ ...prev, [key]: value }))
         }
         onRegister={handleRegister}
+        onDelete={handleDelete}
+        onUpdate={handleUpdate}
       />
       <div className="flex justify-end">
         <Button onClick={() => setShowModal(true)}>공지사항 등록</Button>

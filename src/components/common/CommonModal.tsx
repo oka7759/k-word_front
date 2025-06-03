@@ -78,11 +78,6 @@ function CommonModal<T>({
           ))}
         </div>
         <div className="mt-4 flex gap-2">
-          {onDelete && (
-            <Button onClick={onDelete} className="flex-1 bg-red-500 text-white">
-              삭제
-            </Button>
-          )}
           {onUpdate && (
             <Button
               onClick={onUpdate}
@@ -91,9 +86,17 @@ function CommonModal<T>({
               수정
             </Button>
           )}
-          <Button onClick={onRegister} className="flex-1">
-            등록
-          </Button>
+          {onDelete && (
+            <Button onClick={onDelete} className="flex-1 bg-red-500 text-white">
+              삭제
+            </Button>
+          )}
+
+          {!onDelete && !onUpdate && (
+            <Button onClick={onRegister} className="flex-1">
+              등록
+            </Button>
+          )}
         </div>
       </div>
     </Modal>
