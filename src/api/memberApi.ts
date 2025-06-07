@@ -1,10 +1,8 @@
-import type { LoginResp } from "@/types/api";
+import type { LoginResp, MemberResp } from "@/types/api";
 import axios from "axios";
+import apiClient from "./apiClient";
 
-export const loginPost = async (
-  email: string,
-  pw: string
-): Promise<LoginResp> => {
+const loginPost = async (email: string, pw: string): Promise<LoginResp> => {
   const header = { headers: { "Content-Type": "application/json" } };
   const body = {
     username: email,
@@ -14,3 +12,10 @@ export const loginPost = async (
 
   return res.data;
 };
+
+const memberList = async (): Promise<MemberResp> => {
+  const res = await apiClient.get("/admin/member");
+  return res.data;
+};
+
+export { loginPost, memberList };

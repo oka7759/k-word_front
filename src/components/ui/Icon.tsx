@@ -15,6 +15,8 @@ import ArrowDownIcon from "@/assets/icons/arrow-down.svg?react";
 import ArrowUpIcon from "@/assets/icons/arrow-up.svg?react";
 import BoxIconLine from "@/assets/icons/box.svg?react";
 import GroupIcon from "@/assets/icons/group.svg?react";
+import UserLine from "@/assets/icons/user-line.svg?react";
+import Pancel from "@/assets/icons/pencil.svg?react";
 
 export {
   EyeCloseIcon,
@@ -34,4 +36,6 @@ export {
   ArrowUpIcon,
   BoxIconLine,
   GroupIcon,
+  UserLine,
+  Pancel,
 };

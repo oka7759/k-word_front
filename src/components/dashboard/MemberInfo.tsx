@@ -1,6 +1,7 @@
 import { BoxIconLine, GroupIcon } from "@/components/ui/Icon";
+import type { DashBoardResp } from "@/types/api";
 
-export default function MemberInfo() {
+export default function MemberInfo({ data }: { data?: DashBoardResp }) {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
       {/* <!-- Metric Item Start --> */}
@@ -15,7 +16,7 @@ export default function MemberInfo() {
               총 회원수
             </span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              3,782
+              {data?.totalMembers ?? "-"}
             </h4>
           </div>
         </div>
@@ -30,10 +31,10 @@ export default function MemberInfo() {
         <div className="flex items-end justify-between mt-5">
           <div>
             <span className="text-sm text-gray-500 dark:text-gray-400">
-              Orders
+              결제 수
             </span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              5,359
+              {data?.totalPays ?? "-"}
             </h4>
           </div>
         </div>

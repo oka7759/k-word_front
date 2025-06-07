@@ -5,6 +5,8 @@ import {
   UserCircleIcon,
   ListIcon,
   GridIcon,
+  UserLine,
+  Pancel,
 } from "@/components/ui/Icon";
 
 type NavItem = {
@@ -20,6 +22,16 @@ const navItems: NavItem[] = [
     path: "/admin",
   },
   {
+    icon: <UserLine />,
+    name: "회원 리스트",
+    path: "/admin/member",
+  },
+  {
+    icon: <ListIcon />,
+    name: "결제 이력",
+    path: "/admin/payment",
+  },
+  {
     icon: <PageIcon />,
     name: "컨텐츠 등록",
     path: "/admin/contents",
@@ -30,7 +42,7 @@ const navItems: NavItem[] = [
     path: "/admin/seller",
   },
   {
-    icon: <ListIcon />,
+    icon: <Pancel />,
     name: "공지 관리",
     path: "/admin/notice",
   },
