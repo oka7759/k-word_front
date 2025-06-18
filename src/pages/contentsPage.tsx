@@ -4,16 +4,8 @@ import Button from "@/components/ui/button/Button";
 import Label from "@/components/ui/form/Label";
 import Select from "@/components/ui/form/Select";
 import { Modal } from "@/components/ui/modal/Modal";
-
-interface ExcelRow {
-  category: string;
-  deck: string;
-  card: string;
-  face1: string;
-  face2: string;
-  face3: string;
-  face4: string;
-}
+import type { ExcelRow, UpdateContents } from "@/types/api";
+import { contentUpdate } from "@/api/contentsApi";
 
 interface ExcelData {
   fn: string;
@@ -77,6 +69,7 @@ function contentsPage() {
         "category",
         "deck",
         "card",
+        "target",
         "face1",
         "face2",
         "face3",
@@ -106,9 +99,8 @@ function contentsPage() {
   };
 
   const handleSubmit = async () => {
-    setShowModal(false);
     // setIsLoading(true);
-    const data = {
+    const data: UpdateContents = {
       excelData: excelData.data,
       category: excelData.category,
       deck: excelData.deck,
@@ -119,7 +111,13 @@ function contentsPage() {
         d: selectedLanguages.dLang?.value || null,
       },
     };
-    console.log(JSON.stringify(data));
+    try {
+      await contentUpdate(data);
+    } catch (error) {
+      console.error("Failed to update notice", error);
+    } finally {
+      setShowModal(false);
+    }
   };
 
   return (
@@ -226,6 +224,7 @@ function contentsPage() {
             <th className="py-5 w-[5%]">카테고리</th>
             <th className="py-5 w-[5%]">덱</th>
             <th className="py-5 w-[5%]">카드</th>
+            <th className="py-5 w-[5%]">음성</th>
             <th className="py-5">A면</th>
             <th className="py-5">C면</th>
             <th className="py-5">D면</th>
@@ -239,6 +238,7 @@ function contentsPage() {
                 "category",
                 "deck",
                 "card",
+                "target",
                 "face1",
                 "face2",
                 "face3",

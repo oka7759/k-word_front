@@ -58,3 +58,32 @@ export interface PaymentResp {
   payList: PaymentDTO[];
   sellerList: SellerPayDTO[];
 }
+
+export interface ContestResp {
+  categoryCount: number;
+  deckCount: number;
+  cardCount: number;
+}
+
+export interface UpdateContents {
+  excelData: ExcelRow[];
+  category: string;
+  deck: string;
+  language: {
+    a: string | null;
+    b: string | null;
+    c: string | null;
+    d: string | null;
+  };
+}
+
+export interface ExcelRow {
+  category: string;
+  deck: string;
+  card: string;
+  target: string;
+  face1: string;
+  face2: string;
+  face3: string;
+  face4: string;
+}
